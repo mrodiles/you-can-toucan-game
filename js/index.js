@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 
-let score = 0;
+let score = 5;
 
 
 // function drawComponent(imageSrc, x, y, width, height) {
@@ -67,7 +67,28 @@ const fruit = {
 
 const fruitImg = new Image();
 
+//FRUIT ARRAY FOR LATER//
+// const fruitImg2 = new Image();
+// const fruitImg3 = new Image();
+// const fruitImg4 = new Image();
+// const fruitImg5 = new Image();
+// const fruitImg6 = new Image();
+
+
+
+
 fruitImg.src = './images/pineapple.png';
+// fruitImg2.src = './images/banana.png';
+// fruitImg3.src = './images/papaya.png';
+// fruitImg4.src = './images/watermelon.png';
+// fruitImg5.src = './images/pom.png';
+// fruitImg6.src = './images/apple.png';
+
+// const fruitImages = [
+//     fruitImg, fruitImg2, fruitImg3, fruitImg4, fruitImg5, fruitImg6
+// ]
+
+
 
 
 
@@ -88,6 +109,16 @@ const drawEverything = () => {
 
     context.drawImage(toucanImg, toucan.x, toucan.y, toucan.width, toucan.height);
 
+    //SCORE AND ALERTS//
+
+    if (fruit.y === 0) {
+        score--
+    };
+
+
+
+
+
 
 
 }
@@ -95,21 +126,92 @@ const drawEverything = () => {
 const drawLoop = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawEverything();
 
     // fruit.drawComponent();
-    fruit.y += 2;
+    fruit.y += 12;
     if (fruit.y > canvas.height) {
         fruit.y = 0;
         fruit.x = Math.random() * (canvas.width - 250);
     }
 
-    window.requestAnimationFrame(drawLoop);
+    if (score === 0) {
+
+        gameOver();
+    };
+
+
+    if (score > 0) {
+
+        window.requestAnimationFrame(drawLoop);
+
+    }
+
+    if (score === 20){
+        youWin();
+    }
+
+    drawEverything();
+
+};
+
+// GAME OVER //////////////////////////////////
+//////////////////////////////////
+
+const gameOver = () => {
+    const greenOver = {
+        x: 300,
+        y: 250,
+        width: 350,
+        height: 350,
+    }
+
+    const greenOverImg = new Image();
+
+    greenOverImg.src = './images/gameover.png';
+
+
+    context.drawImage(greenOverImg, greenOver.x, greenOver.y, greenOver.width, greenOver.height);
+
+    window.requestAnimationFrame(gameOver);
 
 
 }
 
+const youWin = () => {
+    
+}
+
+
+
+
+
+
+
+//=========>//Player Mouse Click Event <===========//
+
+// document.querySelector("fruitImg").onclick = () => {
+//     if( fruit.x + fruit.width || fruit.y + fruit.height){
+//           score++;
+// }
+// }
+
+
+document.addEventListener("click", event => {
+
+
+
+    if (event.x > fruit.x &&
+        event.y > fruit.y &&
+        event.x < fruit.x + fruit.width &&
+        event.y < fruit.y + fruit.height) {
+        score++;
+    }
+
+});
+
 drawLoop();
+
+
 
 
 
